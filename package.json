@@ -1,9 +1,9 @@
 {
-  "name": "MOVIE-VISPER MD",
-  "version": "4.0.0",
+  "name": "RAVANA-X-MD",
+  "version": "1.0.0",
   "scripts": {
-    "start": "pm2 start index.js --deep-monitoring --attach --name Movie-Visper",
-    "stop": "pm2 stop Movie-Visper",
+    "start": "pm2 start index.js --deep-monitoring --attach --name GOD-RAVANA",
+    "stop": "pm2 stop GOD-RAVANA",
     "restart": "git pull && npm stop && npm start",
     "stash": "git stash && git stash drop"
   },
