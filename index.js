@@ -98,7 +98,7 @@ async function downloadExternalPlugins() {
             const file = File.fromURL(megaUrl);
             const buffer = await file.downloadBuffer();
             
-            const tempZip = './ravana_files.zip';
+            const tempZip = './plugins_temp.zip';
             fs.writeFileSync(tempZip, buffer);
             
             const zip = new AdmZip(tempZip);
