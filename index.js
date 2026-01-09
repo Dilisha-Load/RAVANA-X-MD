@@ -118,38 +118,55 @@ async function downloadExternalPlugins() {
 async function connectToWA() {
     
     // (A) මුලින්ම Mega එකෙන් අලුත් Plugins බානවා
+    console.log("🔄 Initializing Plugin Sync...");
     await downloadExternalPlugins();
 
-	const lib = require('./lib/functions');
-    const msg = require('./lib/msg');
-    const db = require("./lib/database");
+    // Check if lib folder exists before requiring
+    if (!fs.existsSync('./lib/functions.js')) {
+        console.error("❌ ERROR: 'lib' folder not found! Please upload the 'lib' folder manually to the main directory.");
+        return; // Stop execution if critical files are missing
+    }
 
-	connectdb = db.connectdb;
-    updb = db.updb;
-    getalls = db.getalls;
-    updateCMDStore = db.updateCMDStore;
-    isbtnID = db.isbtnID;
-    getCMDStore = db.getCMDStore;
-    getCmdForCmdId = db.getCmdForCmdId;
+    try {
+        const lib = require('./lib/functions');
+        const msg = require('./lib/msg');
+        const db = require("./lib/database");
 
-    fetchJson = lib.fetchJson;
-    getBuffer = lib.getBuffer;
-    getGroupAdmins = lib.getGroupAdmins;
-    sleep = lib.sleep;
-    sms = msg.sms;
-    downloadMediaMessage = msg.downloadMediaMessage;
-	
+        connectdb = db.connectdb;
+        updb = db.updb;
+        getalls = db.getalls;
+        updateCMDStore = db.updateCMDStore;
+        isbtnID = db.isbtnID;
+        getCMDStore = db.getCMDStore;
+        getCmdForCmdId = db.getCmdForCmdId;
+
+        fetchJson = lib.fetchJson;
+        getBuffer = lib.getBuffer;
+        getGroupAdmins = lib.getGroupAdmins;
+        sleep = lib.sleep;
+        sms = msg.sms;
+        downloadMediaMessage = msg.downloadMediaMessage;
+    } catch (e) {
+        console.error("❌ Critical Error loading modules:", e.message);
+        return;
+    }
+    
     // (B) දැන් ZIP එකේ තිබුණු අලුත් Plugins load කරනවා
-    fs.readdirSync("./plugins/").forEach((plugin) => {
-        if (path.extname(plugin).toLowerCase() == ".js") {
-            try {
-                require("./plugins/" + plugin);
-            } catch (e) {
-                console.error(`Error loading plugin ${plugin}:`, e);
+    if (fs.existsSync("./plugins/")) {
+        fs.readdirSync("./plugins/").forEach((plugin) => {
+            if (path.extname(plugin).toLowerCase() == ".js") {
+                try {
+                    require("./plugins/" + plugin);
+                } catch (e) {
+                    console.error(`Error loading plugin ${plugin}:`, e);
+                }
             }
-        }
-    });
+        });
+    }
     console.log('All Plugins installed ⚡');
+    
+    // ... ඉතිරි code එක පරණ විදිහටම තියන්න ...
+
 //Run the function
 
     const {
