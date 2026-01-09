@@ -88,7 +88,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 //====================================
 
-async function downloadExternalPlugins() {
+// async function downloadExternalPlugins() {
     try {
         const response = await axios.get('https://raw.githubusercontent.com/RAVANA-PRODUCT/database/refs/heads/main/main_var.json');
         const megaUrl = response.data.megaurl; 
